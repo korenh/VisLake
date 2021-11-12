@@ -40,7 +40,11 @@ class ES:
     def publisher(self, item: Dict):
         return self.client.index(index=self.index, body=item)
 
+    def finder(self):
+        return self.client.search(index=self.index)['hits']['hits']
+
     @staticmethod
     def builder(data):
-        return {'_id': data,
+        return {'entity_id': data,
+                'meta': {},
                 'timestamp': datetime.utcnow()}

@@ -13,4 +13,4 @@ def error_handler(func):
 
 
 def map_folder(path: Union[str, Path], ext: str = ''):
-    return sorted(path.rglob('*.{}'.format(ext)))
+    return sorted(Path(path).rglob('*.{}'.format(ext)))
