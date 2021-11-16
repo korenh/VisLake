@@ -1,7 +1,8 @@
 from tqdm import tqdm
+from pathlib import Path
 from utils.handlers import MIO, ES
-from utils.config import SRC_DIR, SRC_TYPE
-from utils.general import error_handler, map_folder
+from utils.config import SRC_DIR, SRC_TYPE, DST_DIR, META_TYPE
+from utils.general import error_handler, map_folder, save_data
 from utils.config import MIO_HOST, MIO_SECRET_KEY, MIO_ACCESS_KEY, MIO_BUCKET, ES_HOST, ES_INDEX
 
 mio_client = MIO(MIO_HOST, MIO_ACCESS_KEY, MIO_SECRET_KEY, MIO_BUCKET)
@@ -19,9 +20,12 @@ def publisher():
 
 @error_handler
 def consumer():
+    temp_dummy = {'x': 1, 'y': 1, 'w': 5, 'h': 5, 'cls': 'unknown'}
+    Path(DST_DIR).mkdir(parents=True, exist_ok=True)
     for d in es_client.finder():
-        print('{}.{}'.format(d['_source']['entity_id'], SRC_TYPE))
+        mio_client.get_object(DST_DIR, '{}.{}'.format(d['_source']['entity_id'], SRC_TYPE))
+        save_data('{}/{}.{}'.format(DST_DIR, d['_source']['entity_id'], META_TYPE), temp_dummy)
 
 
 if __name__ == '__main__':
-    consumer()
+    publisher()

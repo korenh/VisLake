@@ -1,7 +1,9 @@
 import os
 
 SRC_DIR = os.getenv('SRC_DIR', './data/images2')
+DST_DIR = os.getenv('DST_DIR', './data/output')
 SRC_TYPE = os.getenv('SRC_TYPE', 'png')
+META_TYPE = os.getenv('META_TYPE', 'json')
 
 ES_HOST = os.getenv('ES_HOST', 'localhost')
 ES_PORT = int(os.getenv('ES_PORT', 9200))

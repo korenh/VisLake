@@ -1,4 +1,3 @@
-from tqdm import tqdm
 from minio import Minio
 from pathlib import Path
 from datetime import datetime
@@ -21,13 +20,6 @@ class MIO:
     def upload_file(self, path: Union[str, Path]):
         return self.client.fput_object(self.bucket, '{}{}'.format(path.stem, path.suffix), path)
 
-    def upload_folder(self, path: Union[str, Path], ext: str):
-        for file in tqdm(sorted(Path(path).rglob('*.{}'.format(ext)))):
-            self.upload_file(file)
-
-    def list_bucket(self):
-        return self.client.list_objects(self.bucket)
-
     def get_object(self, dst: Union[str, Path], object_name: str):
         return self.client.fget_object(self.bucket, object_name, '{}/{}'.format(dst, object_name))
 
@@ -41,7 +33,8 @@ class ES:
         return self.client.index(index=self.index, body=item)
 
     def finder(self):
-        return self.client.search(index=self.index)['hits']['hits']
+        query = {"size": 50, "query": {"query_string": {"query": "*", "fields": ["entity_id"]}}} # sample query
+        return self.client.search(index=self.index, body=query)['hits']['hits']
 
     @staticmethod
     def builder(data):
