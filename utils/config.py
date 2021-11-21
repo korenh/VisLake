@@ -1,8 +1,8 @@
 import os
 
-SRC_DIR = os.getenv('SRC_DIR', './data/images2')
+SRC_DIR = os.getenv('SRC_DIR', './data/dataset/training_images')
 DST_DIR = os.getenv('DST_DIR', './data/output')
-SRC_TYPE = os.getenv('SRC_TYPE', 'png')
+SRC_TYPE = os.getenv('SRC_TYPE', 'jpg')
 META_TYPE = os.getenv('META_TYPE', 'json')
 
 ES_HOST = os.getenv('ES_HOST', 'localhost')

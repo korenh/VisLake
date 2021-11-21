@@ -33,11 +33,14 @@ class ES:
         return self.client.index(index=self.index, body=item)
 
     def finder(self):
-        query = {"size": 50, "query": {"query_string": {"query": "*", "fields": ["entity_id"]}}} # sample query
+        query = {"size": 50, "query": {"query_string": {"query": "*", "fields": ["entity_id"]}}}
         return self.client.search(index=self.index, body=query)['hits']['hits']
 
     @staticmethod
     def builder(data):
-        return {'entity_id': data,
-                'meta': {},
+        return {'entity_id': data['image'],
+                'x': data['xmin'],
+                'y': data['ymin'],
+                'w': data['xmax'] - data['xmin'],
+                'h': data['ymax'] - data['ymin'],
                 'timestamp': datetime.utcnow()}
