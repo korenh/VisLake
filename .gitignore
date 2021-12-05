@@ -75,5 +75,5 @@ dmypy.json
 .pyre/
 .pytype/
 cython_debug/
-
+sample/Diagram.png
 /data
